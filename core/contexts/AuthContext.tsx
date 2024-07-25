@@ -1,7 +1,7 @@
 import * as React from 'react';
 // import * as SplashScreen from 'expo-splash-screen';
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, User } from 'firebase/auth';
 import { useRouter, usePathname } from 'expo-router';
+import { signInWithEmailAndPassword, subscribeOnAuthStateChanged, User } from '../api/auth';
 
 interface ContextProps {
   isLoading: boolean;
@@ -26,8 +26,6 @@ const defaultContextValue = {
 // SplashScreen.preventAutoHideAsync();
 
 export const AuthContext = React.createContext(defaultContextValue);
-
-const auth = getAuth();
 
 export default function AuthContextProvider({ children }: React.PropsWithChildren) {
   const [state, dispatch] = React.useReducer((prevState, action) => {
@@ -69,10 +67,11 @@ export default function AuthContextProvider({ children }: React.PropsWithChildre
   console.log(pathname);
 
   React.useEffect(() => {
-    const unsubscribeFromAuthStatusChanged = onAuthStateChanged(auth, (user) => {
+    const unsubscribeFromAuthStatusChanged = subscribeOnAuthStateChanged((user) => {
       dispatch({ type: 'SIGN_IN', user: user ?? null });
-      if (pathname && pathname !== '/home') {
-        router.push('home');
+
+      if (!user) {
+        router.replace('Login');
       }
     });
 
@@ -91,7 +90,7 @@ export default function AuthContextProvider({ children }: React.PropsWithChildre
         }
 
         try {
-          await signInWithEmailAndPassword(auth, data.email, data.password);
+          await signInWithEmailAndPassword(data.email, data.password);
         } catch (error) {
           dispatch({ type: 'SIGN_IN', user: 'null' });
         }

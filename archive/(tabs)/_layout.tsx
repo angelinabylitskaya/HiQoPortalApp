@@ -4,8 +4,8 @@ import { Link, Tabs } from 'expo-router';
 import { Pressable } from 'react-native';
 
 import Colors from '@/core/constants/colors';
-import { useColorScheme } from '@/core/contexts/useColorScheme';
-import { useClientOnlyValue } from '@/core/contexts/useClientOnlyValue';
+import { useColorScheme } from '@/core/hooks/useColorScheme';
+import { useClientOnlyValue } from '@/core/hooks/useClientOnlyValue';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {

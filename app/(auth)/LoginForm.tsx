@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, TextInput, Button } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 
 import { View } from '@/components/Themed';
 import { useAuthContext } from '@/core/contexts/AuthContext';
@@ -9,6 +9,11 @@ function LoginForm() {
   const [value, setValue] = React.useState({ email: '', password: '' });
   const { signIn } = useAuthContext();
   const router = useRouter();
+  const navigation = useNavigation();
+
+  React.useEffect(() => {
+    navigation.setOptions({ title: 'Log in', presentation: 'modal' });
+  }, [navigation]);
 
   const submit = React.useCallback(async () => {
     try {
@@ -16,6 +21,7 @@ function LoginForm() {
         email: 'test@gmail.com',
         password: '12345678',
       });
+      router.replace('/');
     } catch {}
   }, [router]);
 

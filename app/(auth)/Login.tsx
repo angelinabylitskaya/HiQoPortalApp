@@ -2,9 +2,9 @@ import * as React from 'react';
 import { StyleSheet, Image, View, Text, Pressable } from 'react-native';
 import Animated, { useSharedValue, withSequence, withSpring, withTiming } from 'react-native-reanimated';
 import { Dimensions } from 'react-native';
-import { useColorScheme } from '@/core/contexts/useColorScheme';
+import { useColorScheme } from '@/core/hooks/useColorScheme';
 import Colors, { useColors } from '@/core/constants/colors';
-import { Link } from 'expo-router';
+import { Link, useNavigation } from 'expo-router';
 
 const logo = require('@/assets/logo.png');
 const buttonDelay = 1000;
@@ -17,6 +17,13 @@ export default function AuthPage() {
   const width = (Dimensions.get('window').width / 3) * 2;
   const colorScheme = useColorScheme();
   const colors = useColors(colorScheme);
+  const navigation = useNavigation();
+
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, [navigation]);
 
   React.useEffect(() => {
     size.value = withSpring(width);
@@ -47,7 +54,7 @@ export default function AuthPage() {
           },
         ]}
       >
-        <Link href="auth/login" asChild>
+        <Link href="LoginForm" asChild>
           <Pressable style={[styles.button, { backgroundColor: colors.background }]}>
             <Text style={[styles.buttonLabel, { color: Colors.common.primary }]}>Login</Text>
           </Pressable>
