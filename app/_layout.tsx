@@ -1,17 +1,12 @@
 import { useEffect } from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { Slot } from 'expo-router';
 import 'react-native-reanimated';
 import '@/core/config/firebase';
 
 import RootContextProvider from '@/core/contexts/RootContext';
-
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -39,7 +34,7 @@ export default function RootLayout() {
 
   return (
     <RootContextProvider>
-      <Stack />
+      <Slot />
     </RootContextProvider>
   );
 }

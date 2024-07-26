@@ -38,10 +38,7 @@ export default function NewsList() {
                   <Card.Content>
                     <Title>{newsItem.title}</Title>
                   </Card.Content>
-                  <Card.Cover
-                    style={styles.image}
-                    source={newsItem.imgUrl ? { uri: newsItem.imgUrl } : ImagePlaceholder}
-                  />
+                  <Card.Cover source={newsItem.imgUrl ? { uri: newsItem.imgUrl } : ImagePlaceholder} />
                 </Card>
               </Link>
             ))}
@@ -73,8 +70,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  image: {
-    objectFit: 'contain',
   },
 });
