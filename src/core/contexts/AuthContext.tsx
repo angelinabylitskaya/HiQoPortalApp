@@ -65,17 +65,18 @@ export default function AuthContextProvider({ children }: React.PropsWithChildre
   const router = useRouter();
   const pathname = usePathname();
   console.log(pathname);
+  console.log(state);
 
   React.useEffect(() => {
-    const unsubscribeFromAuthStatusChanged = subscribeOnAuthStateChanged((user) => {
-      dispatch({ type: 'SIGN_IN', user: user ?? null });
+    dispatch({ type: 'SIGN_IN', user: {} });
+    // const unsubscribeFromAuthStatusChanged = subscribeOnAuthStateChanged((user) => {
 
-      if (!user) {
-        router.replace('Login');
-      }
-    });
+    //   if (!user) {
+    //     router.replace('auth/Login');
+    //   }
+    // });
 
-    return unsubscribeFromAuthStatusChanged;
+    // return unsubscribeFromAuthStatusChanged;
   }, []);
 
   const authContext = React.useMemo<ContextProps>(
@@ -85,14 +86,14 @@ export default function AuthContextProvider({ children }: React.PropsWithChildre
         dispatch({ type: 'LOADING' });
 
         if (data.email === '' || data.password === '') {
-          dispatch({ type: 'SIGN_IN', user: 'null' });
+          dispatch({ type: 'SIGN_IN', user: null });
           return;
         }
 
         try {
           await signInWithEmailAndPassword(data.email, data.password);
         } catch (error) {
-          dispatch({ type: 'SIGN_IN', user: 'null' });
+          dispatch({ type: 'SIGN_IN', user: null });
         }
       },
       signOut: () => dispatch({ type: 'SIGN_OUT' }),

@@ -54,7 +54,7 @@ export default function AuthPage() {
           },
         ]}
       >
-        <Link href="LoginForm" asChild>
+        <Link href="auth/LoginForm" asChild>
           <Pressable style={[styles.button, { backgroundColor: colors.background }]}>
             <Text style={[styles.buttonLabel, { color: Colors.common.primary }]}>Login</Text>
           </Pressable>

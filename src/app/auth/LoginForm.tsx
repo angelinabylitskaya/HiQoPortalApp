@@ -21,7 +21,7 @@ function LoginForm() {
         email: 'test@gmail.com',
         password: '12345678',
       });
-      router.replace('/');
+      router.replace('(app)/news');
     } catch {}
   }, [router]);
 

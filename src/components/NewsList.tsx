@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { Pressable, ScrollView, StyleSheet } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 
 import { View, Text } from '@/components/Themed';
@@ -28,18 +28,20 @@ export default function NewsList() {
             {news.map((newsItem) => (
               <Link
                 href={{
-                  pathname: '/news/[id]',
+                  pathname: '/news/details/[id]',
                   params: { id: newsItem.id },
                 }}
                 asChild
                 key={newsItem.id}
               >
-                <Card>
-                  <Card.Content>
-                    <Title>{newsItem.title}</Title>
-                  </Card.Content>
-                  <Card.Cover source={newsItem.imgUrl ? { uri: newsItem.imgUrl } : ImagePlaceholder} />
-                </Card>
+                <Pressable>
+                  <Card>
+                    <Card.Content>
+                      <Title>{newsItem.title}</Title>
+                    </Card.Content>
+                    <Card.Cover source={newsItem.imgUrl ? { uri: newsItem.imgUrl } : ImagePlaceholder} />
+                  </Card>
+                </Pressable>
               </Link>
             ))}
           </View>
