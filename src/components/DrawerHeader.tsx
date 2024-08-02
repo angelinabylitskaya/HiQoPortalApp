@@ -4,7 +4,8 @@ import { useNavigation } from 'expo-router';
 import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { View, Text } from './Themed';
+import { View } from './Themed';
+import { Text } from 'react-native-ui-lib';
 
 export default function DrawerHeader({ title }) {
   const navigation = useNavigation();
@@ -18,7 +19,8 @@ export default function DrawerHeader({ title }) {
     <View style={[styles.view, { paddingTop: insets.top }]}>
       <View style={styles.container}>
         <MaterialIcons name="menu" style={styles.icon} color="black" onPress={toggleDrawer} />
-        <Text style={styles.title}>{title}</Text>
+        <Text h5 style={styles.title}>{title}</Text>
+        <MaterialIcons name="search" style={styles.icon} color="black" onPress={toggleDrawer} />
       </View>
     </View>
   );
@@ -26,19 +28,24 @@ export default function DrawerHeader({ title }) {
 
 const styles = StyleSheet.create({
   view: {
-    paddingLeft: 16,
-    paddingRight: 16,
+    backgroundColor: '#DBDBDB',
   },
   container: {
-    paddingTop: 16,
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#F2F2F2',
   },
   icon: {
     fontSize: 24,
-    marginRight: 40,
+    height: 48,
+    width: 48,
+    textAlign: 'center',
+    verticalAlign: 'middle',
+    color: '#1C1C1C',
   },
   title: {
-    fontSize: 18,
-    fontWeight: 500
+    fontSize: 20,
+    lineHeight: 48,
+    color: '#1C1C1C',
   },
 });

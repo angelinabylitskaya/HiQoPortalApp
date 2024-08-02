@@ -1,94 +1,109 @@
 import * as React from 'react';
-import { StyleSheet, Image, View, Text, Pressable } from 'react-native';
-import Animated, { useSharedValue, withSequence, withSpring, withTiming } from 'react-native-reanimated';
-import { Dimensions } from 'react-native';
-import { useColorScheme } from '@/core/hooks/useColorScheme';
-import Colors, { useColors } from '@/core/constants/colors';
-import { Link, useNavigation } from 'expo-router';
+import { StyleSheet, Image } from 'react-native';
+import { useNavigation, useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, Text } from 'react-native-ui-lib';
+
+import { View } from '@/components/Themed';
+import { useAuthContext } from '@/core/contexts/AuthContext';
+import { EmailInput, PasswordInput } from '@/components/atoms/Input';
 
 const logo = require('@/assets/logo.png');
-const buttonDelay = 1000;
 
-export default function AuthPage() {
-  const size = useSharedValue(100);
-  const buttonWidth = useSharedValue(0);
-  const buttonHeight = useSharedValue(0);
-  const buttonBorderWidth = useSharedValue(0);
-  const width = (Dimensions.get('window').width / 3) * 2;
-  const colorScheme = useColorScheme();
-  const colors = useColors(colorScheme);
+function LoginForm() {
+  const [value, setValue] = React.useState({ email: '', password: '' });
+  const { signIn } = useAuthContext();
+  const router = useRouter();
   const navigation = useNavigation();
 
   React.useEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
+    navigation.setOptions({ title: 'Log in', presentation: 'modal' });
   }, [navigation]);
 
-  React.useEffect(() => {
-    size.value = withSpring(width);
-    buttonWidth.value = withSequence(withTiming(0, { duration: buttonDelay }), withTiming(width, { duration: 300 }));
-    buttonHeight.value = withSequence(withTiming(0, { duration: buttonDelay }), withTiming(68, { duration: 300 }));
-    buttonBorderWidth.value = withSequence(withTiming(0, { duration: buttonDelay }), withTiming(2, { duration: 300 }));
-  }, [width]);
+  const submit = React.useCallback(async () => {
+    try {
+      await signIn({
+        email: 'test@gmail.com',
+        password: '12345678',
+      });
+      router.replace('(app)/news');
+    } catch {}
+  }, [router]);
+
+  const setEmail = (e) => {
+    setValue({
+      ...value,
+      email: e.text,
+    });
+  };
+
+  const setPassword = (e) => {
+    setValue({
+      ...value,
+      password: e.text,
+    });
+  };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Animated.View style={{ width: size, height: size }}>
-        <Image
-          style={{
-            objectFit: 'cover',
-            width: '100%',
-            height: '75%',
-          }}
-          source={logo}
+    <SafeAreaView style={styles.container}>
+      <View>
+        <Image style={styles.image} source={logo} />
+      </View>
+      <View style={styles.formContainer}>
+        <EmailInput
+          value={value.email}
+          label="Email"
+          placeholder="Enter Email"
+          onChange={setEmail}
+          onClear={() => setEmail({ text: '' })}
         />
-      </Animated.View>
-      <Animated.View
-        style={[
-          styles.buttonContainer,
-          {
-            width: buttonWidth,
-            height: buttonHeight,
-            borderWidth: buttonBorderWidth,
-          },
-        ]}
-      >
-        <Link href="auth/LoginForm" asChild>
-          <Pressable style={[styles.button, { backgroundColor: colors.background }]}>
-            <Text style={[styles.buttonLabel, { color: Colors.common.primary }]}>Login</Text>
-          </Pressable>
-        </Link>
-      </Animated.View>
-    </View>
+        <PasswordInput
+          value={value.password}
+          label="Password"
+          placeholder="Enter Password"
+          onChange={setPassword}
+          onClear={() => setPassword({ text: '' })}
+        />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button onPress={submit}>
+            <Text buttonMedium textLight>Login</Text>
+        </Button>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    width: 0,
-    height: 0,
-    borderWidth: 0,
-    marginHorizontal: 20,
+  container: {
+    flex: 1,
+    paddingTop: 64,
+    paddingHorizontal: 16,
+    paddingBottom: 8,
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 3,
-    borderColor: Colors.common.primary,
-    borderRadius: 18,
+    gap: 64,
+    backgroundColor: '#fff'
   },
-  button: {
-    borderRadius: 10,
+  image: {
+    width: 72,
+    height: 53,
+  },
+  formContainer: {
     width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
+    flex: 1,
+    gap: 8,
   },
-  buttonIcon: {
-    paddingRight: 8,
+  buttonContainer: {
+    width: '100%',
   },
-  buttonLabel: {
-    color: '#fff',
-    fontSize: 16,
+  //
+  input: {
+    padding: 16,
+    borderRadius: 8,
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: '#fff',
   },
 });
+
+export default LoginForm;

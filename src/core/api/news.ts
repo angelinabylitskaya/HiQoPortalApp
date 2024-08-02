@@ -3,7 +3,18 @@ import firestore from './database';
 
 export const getNews = async () => {
   if (process.env.EXPO_PUBLIC_FIREBASE_MOCK) {
-    return [{ id: 1, title: 'HiQo Party', description: 'hiqo hey' }];
+    return [
+        { id: 1, title: 'HiQo Party', description: 'hiqo hey' },
+        { id: 2, title: 'HiQo Party', description: 'hiqo hey' },
+        { id: 3, title: 'HiQo Party', description: 'hiqo hey' },
+        { id: 4, title: 'HiQo Party', description: 'hiqo hey' },
+        { id: 5, title: 'HiQo Party', description: 'hiqo hey' },
+        { id: 6, title: 'HiQo Party', description: 'hiqo hey' },
+        { id: 7, title: 'HiQo Party', description: 'hiqo hey' },
+        { id: 8, title: 'HiQo Party', description: 'hiqo hey' },
+        { id: 9, title: 'HiQo Party', description: 'hiqo hey' },
+        { id: 10, title: 'HiQo Party', description: 'hiqo hey' },
+    ];
   }
   const querySnapshot = await getDocs(collection(firestore, 'news'));
   const news = [];

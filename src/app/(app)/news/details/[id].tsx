@@ -10,20 +10,7 @@ const ImagePlaceholder = require('@/assets/images/adaptive-icon.png');
 export default function NewsDetails() {
   const [news, setNews] = useState(null);
   const { id } = useLocalSearchParams<{ id: string }>();
-//   const drawerNavigation = useNavigation('../../../');
   const navigation = useNavigation();
-
-//   React.useEffect(() => {
-//     drawerNavigation.setOptions({
-//       headerShown: false,
-//     });
-
-//     return () => {
-//       drawerNavigation.setOptions({
-//         headerShown: true,
-//       });
-//     };
-//   }, []);
 
   React.useEffect(() => {
     if (news?.title) {

@@ -65,7 +65,6 @@ export default function AuthContextProvider({ children }: React.PropsWithChildre
   const router = useRouter();
   const pathname = usePathname();
   console.log(pathname);
-  console.log(state);
 
   React.useEffect(() => {
     dispatch({ type: 'SIGN_IN', user: {} });
